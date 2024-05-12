@@ -27,8 +27,8 @@ pub struct Test {
 
 #[derive(Debug, Deserialize)]
 pub struct HexEdit {
-    pub start: usize,
-    pub end: usize,
+    pub start: String,
+    pub end: String,
     pub data: String,
 }
 

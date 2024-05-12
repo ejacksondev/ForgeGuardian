@@ -4,13 +4,14 @@ use std::fs::File;
 use std::io::Write;
 use std::path::Path;
 
-pub fn mutate(start: usize, end: usize, data: String, file_path: &Path) -> Result<(), Box<dyn Error>> {
+pub fn mutate(start: &str, end: &str, data: String, file_path: &Path) -> Result<(), Box<dyn Error>> {
+    let dec_start = usize::from_str_radix(start, 16).unwrap();
+    let dec_end = usize::from_str_radix(end, 16).unwrap();
+
     let bytes = fs::read(file_path).expect("Failed to read file");
-    let new_bytes = [&bytes[0..start], &data.as_bytes(), &bytes[end..bytes.len()]].concat();
+    let new_bytes = [&bytes[0..dec_start], &data.as_bytes(), &bytes[dec_end..bytes.len()]].concat();
 
     overwrite_file(&file_path, new_bytes).expect("TODO: panic message");
-
-    // TODO doc - specify inclusive range and incl example. Specify removal of bytes as "". Specify hex syntax only
 
     Ok(())
 }
