@@ -15,7 +15,6 @@ use crate::transform::transform;
 fn main() {
 
     let config = deserialize(Cli::parse());
-    // unwrap optional fields if present TODO does this error when not present?
     let config_dir: PathBuf = config.directory.expect("REASON");
 
     for (test_name, test) in config.tests {
