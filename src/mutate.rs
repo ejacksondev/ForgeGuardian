@@ -16,12 +16,12 @@ pub fn mutate(
     let bytes = fs::read(file_path).expect("Failed to read file");
     let new_bytes = [
         &bytes[0..dec_start],
-        &data.as_bytes(),
+        data.as_bytes(),
         &bytes[dec_end..bytes.len()],
     ]
     .concat();
 
-    overwrite_file(&file_path, new_bytes).expect("Failed to overwrite file");
+    overwrite_file(file_path, new_bytes).expect("Failed to overwrite file");
 
     Ok(())
 }

@@ -13,6 +13,6 @@ pub fn create(file_path: &Path, test: &Test) -> Result<(), Box<dyn Error>> {
             .map_err(|e| format!("Failed to decode base64 data: {}", e))?,
         _ => test.data.as_bytes().to_vec(), // No encoding or unknown encoding
     };
-    fs::write(&file_path, &decoded_data).map_err(|e| format!("Failed to write file: {}", e))?;
+    fs::write(file_path, decoded_data).map_err(|e| format!("Failed to write file: {}", e))?;
     Ok(())
 }

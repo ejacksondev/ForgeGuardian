@@ -6,7 +6,7 @@ use std::process::Command;
 pub fn transform(
     tool: &Tool,
     file_path: &Path,
-    transform: &String,
+    transform: &str,
 ) -> Result<PathBuf, Box<dyn Error>> {
     let transformed_command = transform.replace("[path]", file_path.to_str().unwrap());
     Command::new(&tool.cmd)
