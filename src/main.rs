@@ -1,24 +1,22 @@
 mod create;
-mod transform;
+mod deserialize;
 mod mutate;
 mod toml_structs;
-mod deserialize;
+mod transform;
 
-use clap::Parser;
-use std::path::{PathBuf};
 use crate::create::create;
 use crate::deserialize::deserialize;
-use crate::toml_structs::*;
 use crate::mutate::mutate;
+use crate::toml_structs::*;
 use crate::transform::transform;
+use clap::Parser;
+use std::path::PathBuf;
 
 fn main() {
-
     let config = deserialize(Cli::parse());
     let config_dir: PathBuf = config.directory.expect("REASON");
 
     for (test_name, test) in config.tests {
-
         let mut file_path: PathBuf = config_dir.join(format!("{}{}", test_name, test.extension));
 
         // Build base file with specified data
@@ -40,11 +38,15 @@ fn main() {
 
         // Alter hex in file where specified
         if let Some(hex_edit) = &test.hex_edit {
-            match mutate(&hex_edit.start, &hex_edit.end, hex_edit.data.clone(), &file_path) {
+            match mutate(
+                &hex_edit.start,
+                &hex_edit.end,
+                hex_edit.data.clone(),
+                &file_path,
+            ) {
                 Ok(()) => println!("File hex edited successfully: {:?}", file_path),
                 Err(err) => eprintln!("Error editing hex of file: {}", err),
             }
         }
     }
-
 }

@@ -59,6 +59,7 @@ Tests may take any name. All fields are required except `transform` and `hex_edi
 - [ ] Delete base files created by `create.rs`
 - [ ] Options for tool extensions - ForgeGuardian will only handle compression-style extensions gracefully at present
 - [ ] Threading for efficiency
+- [ ] Fetch data from online source
 
 ## Contributing
 

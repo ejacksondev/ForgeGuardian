@@ -1,9 +1,13 @@
+use crate::toml_structs::Tool;
 use std::error::Error;
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use crate::toml_structs::Tool;
 
-pub fn transform(tool: &Tool, file_path: &Path, transform: &String) -> Result<PathBuf, Box<dyn Error>> {
+pub fn transform(
+    tool: &Tool,
+    file_path: &Path,
+    transform: &String,
+) -> Result<PathBuf, Box<dyn Error>> {
     let transformed_command = transform.replace("[path]", file_path.to_str().unwrap());
     Command::new(&tool.cmd)
         .args(transformed_command.split_whitespace())
