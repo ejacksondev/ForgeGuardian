@@ -3,7 +3,7 @@ A simple binary blob test synthesiser and mutator.
 
 ## Installation
 
-Download the most recent release, or ForgeGuardian can be compiled from source with `cargo build --release`.
+Download or compile ForgeGuardian from source with `cargo build --release`.
 
 ## Usage
 #### Generating Test Binaries
@@ -34,14 +34,14 @@ extension = ".txt"
 data = "This is a test file!"
 encoding = "null"
 transform = "--compress [path]"
-hex_edit = {start = 0x10, end = 0x20, data = ""}
+hex_edit = {start = 10, end = 20, data = ""}
 
 [tests.bad_2]
 extension = ".jpg"
 data = "/9j/4AAQSkZJRgABAQAAAQABAAD/2w..."
 encoding = "b64"
 transform = "--compress [path]"
-hex_edit = {start = 0x10, end = 0x20, data = "46000101 00000100 010000FF DB008400 09060713 13121513 13131616 15171818"}
+hex_edit = {start = 10, end = 20, data = "46000101 00000100 010000FF DB008400 09060713 13121513 13131616 15171818"}
 ```
 The path to the tool specified may be a fully qualified path, or where the tool is on the PATH of the machine, the tool may be specified by name as above.
 Tests may take any name. All fields are required except `transform` and `hex_edit` which may be included where needed. The example above would result in the following files:
@@ -54,6 +54,9 @@ Tests may take any name. All fields are required except `transform` and `hex_edi
 - `bad_2.jpg`: (Where the full base64 data is included) a JPEG image
 - `bad_2.jpg.xz`: `bad_2.jpg` compressed with `xz` (built with `xz --compress good_2.jpg`). Hex 0x10 to 0x20 is replaced with the specified values.
 
+## ⚠️ Security Notice ⚠️
+OS commands may be specified in `config.toml`. Carefully check the configuration file before using ForgeGuardian. If you don't understand the commands a test is using, don't use it and reach out to the open-source community for help or use resources such as [explainshell.com](https://explainshell.com) before executing ForgeGuardian.
+
 ## Roadmap
 - [x] Minimum Viable Product
 - [ ] Delete base files created by `create.rs`
@@ -61,8 +64,10 @@ Tests may take any name. All fields are required except `transform` and `hex_edi
 - [ ] Threading for efficiency
 - [ ] Fetch data from online source
 
-## Contributing
+## Known Bugs
+- [ ] Extensions of tool specified are always appended where transform is present, e.g. extensions will be appended to a file even on decompression
 
+## Contributing
 Suggestions, bug reports, and changes are welcome.
 
 ## FAQ's
@@ -71,7 +76,7 @@ ForgeGuardian is a simple open-source tool to help developers test software. It 
 #### Who should use ForgeGuardian?
 ForgeGuardian is not a complex test suite, nor was it intended to be. ForgeGuardian is intended for developers who do not need complex, fully fledged, testing suites or do not want to spend time configuring such solutions.
 #### Why should I use ForgeGuardian?
-Recently the open source community was taken aback when an almost-successful attack on the `xz` utils was launched by Jia Tan. Jia used test binaries distributed with `xz` which contained at least one obfuscated backdoor. ForgeGuardian aims to reduce the attack surface of such projects by defining how all test files should be built in a human-readable format. Many of the original test files distributed with `xz` were binaries created by hand in a hex editor meaning other developers were not able to easily verify the behaviour of the files. By defining how files should be built, developers should gain more visibility over test binaries associated with a project. It is hoped this goes some way to reducing the attack surface of open source projects.
+Recently the open source community was taken aback when an almost successful [attack](https://tukaani.org/xz-backdoor/) on [`xz` utils](https://github.com/tukaani-project/xz?tab=security-ov-file) was launched by Jia Tan. Jia used test binaries distributed with `xz` which contained at least one obfuscated backdoor. ForgeGuardian aims to reduce the attack surface of such projects by defining how all test files should be built in a human-readable format. Many of the original test files distributed with `xz` were binaries created by hand in a hex editor meaning other developers were not able to easily verify the behaviour of the files. By defining how files should be built, developers should gain more visibility over test binaries associated with a project. It is hoped this goes some way to reducing the attack surface of open source projects.
 #### When should I use ForgeGuardian?
 When testing a project during development requires a set of files built in a consistent manner with specific portions of the file modified in some way. An example would be the test files distributed with the `xz` project allowing developers to verify the behaviour of their changes before creating PRs.
 #### How should I use ForgeGuardian?
