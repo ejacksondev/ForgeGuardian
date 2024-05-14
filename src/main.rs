@@ -13,6 +13,7 @@ use clap::Parser;
 use std::path::PathBuf;
 
 fn main() {
+    #![forbid(unsafe_code)]
     let config = deserialize(Cli::parse());
     let config_dir: PathBuf = config.directory.expect("REASON");
 
