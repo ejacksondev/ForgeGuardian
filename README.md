@@ -1,3 +1,4 @@
+[![unsafe forbidden](https://img.shields.io/badge/unsafe-forbidden-success.svg)](https://github.com/rust-secure-code/safety-dance/) ![version](https://img.shields.io/badge/version-0.1.0-blue) ![build-status](https://img.shields.io/badge/build-passing-success)
 # ForgeGuardian
 A simple binary blob test synthesiser and mutator. 
 
